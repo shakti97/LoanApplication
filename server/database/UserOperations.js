@@ -88,10 +88,32 @@ const UserOperations = {
     ApproveLoan(loanObject, response) {
         console.log('ApproveLoan UserOperation');
         userSchema.update({
-            "loans.loanId" : loanObject.loanId
-        },{
-            $set : {
-                "loans.$.status" : "Approved"
+            "loans.loanId": loanObject.loanId
+        }, {
+            $set: {
+                "loans.$.status": "Approved"
+            }
+        }, (err, userDoc) => {
+            if (err) {
+                console.log('error while updating the loan Status ', err);
+                response.status(500).send({
+                    Error: err
+                })
+            } else {
+                console.log('successfully approved the loan Request ', userDoc);
+                response.status(200).send({
+                    SuccessfullyApproved: true
+                })
+            }
+        })
+    },
+    RejectLoan(loanObject, response) {
+        console.log('rejectLoan UserOperation');
+        userSchema.update({
+            "loans.loanId": loanObject.loanId
+        }, {
+            $set: {
+                "loan.$.status": "Rejected"
             }
         },(err,userDoc)=>{
             if(err){
@@ -99,17 +121,13 @@ const UserOperations = {
                 response.status(500).send({
                     Error :err
                 })
-            }
-            else{
-                console.log('successfully approved the loan Request ',userDoc);
+            }else{
+                console.log('Successfully rejected the loan Request ',userDoc);
                 response.status(200).send({
-                    ApprovedSuccess :true
+                    SuccessfullyRejected :true
                 })
             }
         })
-    },
-    RejectLoan(loanObject, response) {
-        console.log('rejectLoan UserOperation');
     },
     FetchLoan(loanObject, response) {
         console.log('FetchLoan UserOperation');
