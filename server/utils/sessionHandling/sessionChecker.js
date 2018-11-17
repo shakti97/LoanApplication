@@ -27,3 +27,4 @@ const sessionChecker =(request,response,next)=>{
         checkerFunction('sessionId Value',response,next);
     }
 }
+module.exports=sessionChecker;

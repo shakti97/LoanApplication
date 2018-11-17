@@ -6,7 +6,9 @@ const path=require('path');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 const cors=require('./utils/cors.js');
-app.use(cors());
+app.use(cors);
+const passport=require('passport');
+const appRoute=require('./routes/appRoute.js');
 const store=require('./utils/sessionHandling/sessionstore');
 app.use(session({
 store : store,
@@ -21,8 +23,8 @@ store : store,
     }
 
 }));
-
-app.use('/',app);
+app.use(passport.initialize());
+app.use('/',appRoute);
 
 app.listen(process.env.PORT || 8080,()=>{
     console.log('Server Started');

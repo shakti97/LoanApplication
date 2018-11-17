@@ -1,5 +1,7 @@
 const userSchema=require('./schema/UserSchema.js');
 const passwordHash = require('password-hash');
+const config=require('../utils/config/auth.js');
+
 
 const UserOperations={
         UserSignUp(userObject,response){
