@@ -131,6 +131,23 @@ const UserOperations = {
     },
     FetchLoan(loanObject, response) {
         console.log('FetchLoan UserOperation');
+        userSchema.find({ $and : [{role : 'customer'},{email :loanObject.userId}]},(err,userDoc)=>{
+            if(err){
+                console.log('error while fetching the loans ')
+            }
+            else if(userDoc && userDoc.length>0){
+                console.log('success found the person ',userDoc[0]._id);
+                response.status(200).send({
+                    loans : userDoc[0].loans
+                })
+            }
+            else{
+                console.log('No loans found ');
+                response.status(200).send({
+                    loans : [] 
+                })
+            }
+        })
     }
 }
 module.exports = UserOperations;
