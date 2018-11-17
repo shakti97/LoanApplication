@@ -96,6 +96,15 @@ const UserOperations = {
         },(err,userDoc)=>{
             if(err){
                 console.log('error while updating the loan Status ',err);
+                response.status(500).send({
+                    Error :err
+                })
+            }
+            else{
+                console.log('successfully approved the loan Request ',userDoc);
+                response.status(200).send({
+                    ApprovedSuccess :true
+                })
             }
         })
     },
