@@ -60,14 +60,19 @@ router.get('/auth/facebook',
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
+      
     console.log("Successful authentication, redirect home.");
-    res.redirect('/');
+    res.status(200).send({
+      fbLogin :true    
+    });
   });
 router.get('/home',(req,res)=>{
     console.log('its home component ');
 })
 router.post('/requestLoan',sessionChecker,(req,res)=>{
-    console.log('requestLoan');
+    console.log('requestLoan',req.body);
+    UserOperation
+
 })
 router.post('/approveLoan',sessionChecker,(req,res)=>{
     console.log('approveLoan');
