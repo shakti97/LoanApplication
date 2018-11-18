@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Switch,Route} from 'react-router-dom';
 
@@ -12,6 +11,7 @@ class App extends Component {
         </header>
         <Switch>
           <Route path='/' exact component={Login}/>
+          <Route path='/signUp' exact component={SignUp}/>
           <Route path="/admin" exact component={AdminPanel}/>
           <Route path="/lender" exact component={Lender}/>
           <Route path="/customer" exact component={Customer}/>
