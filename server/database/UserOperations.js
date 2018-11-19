@@ -17,12 +17,12 @@ const UserOperations = {
                 console.log('details added to the db at ', user._id);
                 response.status(200).send({
                     isSignUp: true,
-                    userId : user._id
+                    userId: user._id
                 })
             }
         })
     },
-    adminSignUp(userObject){
+    adminSignUp(userObject) {
         userObject.password = passwordHash.generate(userObject.password);
         userSchema.create(userObject, (err, user) => {
             if (err) {
@@ -32,25 +32,29 @@ const UserOperations = {
             }
         })
     },
-    addRole(userObject,response){
-        console.log('userObject ',userObject);
-        userSchema.updateOne({_id : userObject.userId},{
-            $set : { "role" : userObject.role }
-        },(err)=>{
-            if(err){
-            console.log('Error while Adding role');
-            response.status(500).send({
-                Error :err
-            })
-        }else{
-            console.log('role added successfully');
-            response.status(200).send({
-                isRollAdded :true
-            })
-        }
+    addRole(userObject, response) {
+        console.log('userObject ', userObject);
+        userSchema.updateOne({
+            _id: userObject.userId
+        }, {
+            $set: {
+                "role": userObject.role
+            }
+        }, (err) => {
+            if (err) {
+                console.log('Error while Adding role');
+                response.status(500).send({
+                    Error: err
+                })
+            } else {
+                console.log('role added successfully');
+                response.status(200).send({
+                    isRollAdded: true
+                })
+            }
         })
     },
-    UserLogIn(userObject,request, response) {
+    UserLogIn(userObject, request, response) {
         console.log('UserLogIn UserOperation');
         userSchema.find({
             email: userObject.email
@@ -73,11 +77,18 @@ const UserOperations = {
                             })
                         } else {
                             console.log('session saved successfully');
+                            let Routes;
+                            if (userDoc[0].role === "Customer") {
+                                Routes = ['/customer', '/']
+                            } else if (userDoc[0].role === 'Lender') {
+                                Routes = ['/lender', '/']
+                            }
                             response.status(200).send({
                                 isLogin: true,
                                 sessionId: request.sessionID,
-                                userId : userDoc[0].id,
-                                role : userDoc[0].role
+                                userId: userDoc[0].id,
+                                role: userDoc[0].role,
+                                routes : Routes
                             })
                         }
                     })
@@ -97,7 +108,13 @@ const UserOperations = {
         }
         console.log(loanObj);
         console.log(loanObject.userId);
-        userSchema.find({_id : loanObject.userId},(err,userDoc)=>{if(userDoc){console.log("id ", userDoc)}})
+        userSchema.find({
+            _id: loanObject.userId
+        }, (err, userDoc) => {
+            if (userDoc) {
+                console.log("id ", userDoc)
+            }
+        })
         userSchema.updateOne({
             _id: loanObject.userId
         }, {
@@ -111,7 +128,7 @@ const UserOperations = {
                     Error: err
                 })
             } else {
-                console.log('loan request successful',userDoc._id);
+                console.log('loan request successful', userDoc._id);
                 response.status(200).send({
                     loanRequestSuccess: true
                 })
@@ -119,16 +136,17 @@ const UserOperations = {
         })
 
     },
-    RejectLoan(loanId,response){
+    RejectLoan(loanId, response) {
         console.log('RejectLoan UserOperation');
         userSchema.find({
             "loans.loanId": loanId
             // "loans": {$elemMatch : {'loanId' : loanId}}
-        },(err,userDoc)=>{
-            if(err){
+        }, (err, userDoc) => {
+            if (err) {
                 console.log(err);
+            } else if (userDoc) {
+                console.log("id ", userDoc)
             }
-            else if(userDoc){console.log("id ", userDoc)}
         })
         userSchema.updateOne({
             "loans.loanId": loanId
@@ -136,16 +154,16 @@ const UserOperations = {
             $set: {
                 "loans.$.status": "Rejected"
             }
-        },(err,userDoc)=>{
-            if(err){
-                console.log('error while updating the loan Status ',err);
+        }, (err, userDoc) => {
+            if (err) {
+                console.log('error while updating the loan Status ', err);
                 response.status(500).send({
-                    Error :err
+                    Error: err
                 })
-            }else{
-                console.log('Successfully rejected the loan Request ',userDoc);
+            } else {
+                console.log('Successfully rejected the loan Request ', userDoc);
                 response.status(200).send({
-                    SuccessfullyRejected:true
+                    SuccessfullyRejected: true
                 })
             }
         })
@@ -155,11 +173,12 @@ const UserOperations = {
         userSchema.find({
             "loans.loanId": loanId
             // "loans": {$elemMatch : {'loanId' : loanId}}
-        },(err,userDoc)=>{
-            if(err){
+        }, (err, userDoc) => {
+            if (err) {
                 console.log(err);
+            } else if (userDoc) {
+                console.log("id ", userDoc)
             }
-            else if(userDoc){console.log("id ", userDoc)}
         })
         userSchema.updateOne({
             "loans.loanId": loanId
@@ -167,37 +186,39 @@ const UserOperations = {
             $set: {
                 "loans.$.status": "Approved"
             }
-        },(err,userDoc)=>{
-            if(err){
-                console.log('error while updating the loan Status ',err);
+        }, (err, userDoc) => {
+            if (err) {
+                console.log('error while updating the loan Status ', err);
                 response.status(500).send({
-                    Error :err
+                    Error: err
                 })
-            }else{
-                console.log('Successfully approved the loan Request ',userDoc);
+            } else {
+                console.log('Successfully approved the loan Request ', userDoc);
                 response.status(200).send({
-                    SuccessfullyApproved :true
+                    SuccessfullyApproved: true
                 })
             }
         })
     },
-    FetchAllLoans(userObject,response){
-        let Loans =[]
+    FetchAllLoans(userObject, response) {
+        let Loans = []
         console.log('FetchAll Loans');
-        userSchema.find({role : 'Customer'},(err,userDoc)=>{
-            if(err){
-                console.log('userDoc ',userDoc);
+        userSchema.find({
+            role: 'Customer'
+        }, (err, userDoc) => {
+            if (err) {
+                console.log('userDoc ', userDoc);
                 response.status(500).send({
-                    Error : err
+                    Error: err
                 })
-            }else{
-                console.log('users ',userDoc);
-                for(let i=0;i<userDoc.length;i++){
+            } else {
+                console.log('users ', userDoc);
+                for (let i = 0; i < userDoc.length; i++) {
                     Loans.push(...userDoc[i].loans);
-                    console.log('loans ',Loans);
+                    console.log('loans ', Loans);
                 }
                 response.status(200).send({
-                    loans:Loans
+                    loans: Loans
                 })
             }
         })
@@ -205,22 +226,28 @@ const UserOperations = {
     FetchLoan(loanObject, response) {
         console.log('FetchLoan UserOperation');
         console.log(loanObject);
-        userSchema.find({_id : loanObject.userId},(err,userDoc)=>{if(userDoc){console.log("id ", userDoc)}})
-        userSchema.find({_id :loanObject.userId},(err,userDoc)=>{
-            if(err){
+        userSchema.find({
+            _id: loanObject.userId
+        }, (err, userDoc) => {
+            if (userDoc) {
+                console.log("id ", userDoc)
+            }
+        })
+        userSchema.find({
+            _id: loanObject.userId
+        }, (err, userDoc) => {
+            if (err) {
                 console.log('error while fetching the loans ')
-            }
-            else if(userDoc && userDoc.length>0){
-                console.log('success found the person ',userDoc[0]._id);
+            } else if (userDoc && userDoc.length > 0) {
+                console.log('success found the person ', userDoc[0]._id);
                 response.status(200).send({
-                    loans : userDoc[0].loans
+                    loans: userDoc[0].loans
                 })
-            }
-            else{
-                console.log('userDoc ',userDoc);
+            } else {
+                console.log('userDoc ', userDoc);
                 console.log('No loans found ');
                 response.status(200).send({
-                    loans : [] 
+                    loans: []
                 })
             }
         })
