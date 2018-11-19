@@ -27,6 +27,7 @@ class Login extends Component {
                 console.log(data);
                 localStorage.setItem("sessionId", data.sessionId);
                 localStorage.setItem('userId', data.userId);
+                localStorage.setItem('routes',data.routes);
                 if (data.role === 'Customer') {
                     this.props.history.push('/customer');
                 } else if (data.role === "Lender") {
@@ -51,6 +52,9 @@ class Login extends Component {
         }).catch((res)=>{
             console.log('error in fb login ');
         })
+    }
+    componentWillMount(){
+        localStorage.setItem('routes',[]);
     }
     render() {
         return (
