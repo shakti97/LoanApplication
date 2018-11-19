@@ -34,9 +34,12 @@ class Customer extends Component {
         }).then((res)=>{
             res.json().then((data)=>{
                 console.log("data ",data);
-                alert("loan request success");
+                if(data.loanRequestSuccess){
+                    alert("loan request success");
                 this.componentWillMount();
-
+                }else if(!data.isAuth){
+                    this.Logout();
+                }
             })
         }).catch((err)=>{
             console.log('err in response ',err);
@@ -54,7 +57,11 @@ class Customer extends Component {
         }).then((res) => {
             res.json().then((data) => {
                 console.log("data ", data);
+                if(data.loans){
                 this.setState({loans :data.loans})
+                }else if(!data.isAuth){
+                    this.Logout();
+                }
             })
         }).catch((res) => {
             console.log('catch error ', res);

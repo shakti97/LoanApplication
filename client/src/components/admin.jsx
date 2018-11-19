@@ -27,6 +27,9 @@ class AdminPanel extends Component{
                         loans :data.loans
                     })
                 }
+                else if(!data.isAuth){
+                    this.Logout();
+                }
             })
         }).catch((err)=>{
             console.log('err in fetch all loans ',err);

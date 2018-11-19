@@ -28,6 +28,9 @@ class Lender extends Component{
                     alert('Rejected Successfully');
                     this.componentWillMount();
                 }
+                else if(!data.isAuth){
+                    this.Logout();
+                }
             })
         }).catch((err)=>{
             console.log('err in Rejection loane',err);
@@ -50,6 +53,9 @@ class Lender extends Component{
                     alert('Approved Successfully');
                     this.componentWillMount();
                 }
+                else if(!data.isAuth){
+                    this.Logout();
+                }
             })
         }).catch((err)=>{
             console.log('err in approving loane',err);
@@ -70,6 +76,9 @@ class Lender extends Component{
                     this.setState({
                         loans :data.loans
                     })
+                }
+                else if(!data.isAuth){
+                    this.Logout();
                 }
             })
         }).catch((err)=>{
