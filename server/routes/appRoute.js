@@ -91,8 +91,25 @@ router.post('/requestLoan',sessionChecker,(req,res)=>{
     UserOperation.RequestLoan(userObject,res);
 
 })
-router.post('/approveLoan',sessionChecker,(req,res)=>{
+router.get('/fetchAllLoans',sessionChecker,(req,res)=>{
+    console.log('fetchAllLoans');
+    let userObject={
+        sessionId : req.headers.authtoken,
+        userId :req.headers.userid
+    }
+    UserOperation.FetchAllLoans(userObject,res);
+})
+router.put('/approveLoan',sessionChecker,(req,res)=>{
     console.log('approveLoan');
+    loanId =req.body.id;
+    console.log('loanID',loanId);
+    UserOperation.ApproveLoan(loanId,res);
+})
+router.put('/rejectloan',sessionChecker,(req,res)=>{
+    console.log('approveLoan');
+    loanId =req.body.id;
+    console.log('loanID',loanId);
+    UserOperation.ApproveLoan(loanId,res);
 })
 router.post('/rejectLoan',sessionChecker,(req,res)=>{
     console.log('rejectLoan');
