@@ -22,6 +22,16 @@ const UserOperations = {
             }
         })
     },
+    adminSignUp(userObject){
+        userObject.password = passwordHash.generate(userObject.password);
+        userSchema.create(userObject, (err, user) => {
+            if (err) {
+                console.log('Error in SignUp', err);
+            } else {
+                console.log('details added to the db at ', user._id);
+            }
+        })
+    },
     addRole(userObject,response){
         console.log('userObject ',userObject);
         userSchema.updateOne({_id : userObject.userId},{
