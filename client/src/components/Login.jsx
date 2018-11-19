@@ -32,6 +32,9 @@ class Login extends Component {
                 } else if (data.role === "Lender") {
                     this.props.history.push('/lender');
                 }
+                else if(data.role==='Admin'){
+                    this.props.history.push('/admin');
+                }
             })
         }).catch((res) => {
             console.log('error while fetching ', res);
