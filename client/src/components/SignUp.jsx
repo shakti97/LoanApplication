@@ -26,7 +26,7 @@ class SignUp extends Component {
         let userDetails = this.state;
         console.log("userDetails ",userDetails);
         fetch(api + '/signUp', {
-            headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
             method: 'POST',
             body: JSON.stringify(userDetails)
         }).then((res) => {
