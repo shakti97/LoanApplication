@@ -47,12 +47,23 @@ passport.use(new FacebookStrategy({
 
 
 router.post('/signUp',(req,res)=>{
-    console.log('signUp');
-    userObject=req.body.userDetails;
-    UserOperation
+    console.log('signUp app route');
+    let userObject=req.body;
+    console.log('request header ',req.headers);
+    console.log('userObject ',userObject);
+    UserOperation.UserSignUp(userObject,res);
 });
+router.post('/addRole',(req,res)=>{
+    console.log('addRole Route');
+    let userObject=req.body;
+    console.log('request headers ',req.headers);
+    UserOperation.addRole(userObject,res);
+})
 router.post('/login',(req,res)=>{
     console.log('login');
+    let userObject=req.body;
+    console.log('request headers ',req.headers);
+    UserOperation.UserLogIn(userObject,req,res);
 });
 router.get('/auth/facebook',
   passport.authenticate('facebook'));
@@ -60,8 +71,8 @@ router.get('/auth/facebook',
 router.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-      
     console.log("Successful authentication, redirect home.");
+    console.log('user ',user);  
     res.status(200).send({
       fbLogin :true    
     });
@@ -70,8 +81,14 @@ router.get('/home',(req,res)=>{
     console.log('its home component ');
 })
 router.post('/requestLoan',sessionChecker,(req,res)=>{
-    console.log('requestLoan',req.body);
-    UserOperation
+    console.log('requestLoan',req.body ,req.headers);
+
+    let userObject ={
+        userId :req.headers.userid,
+        amount : req.body.amount,
+        LoanReason : req.body.LoanReason
+    }
+    UserOperation.RequestLoan(userObject,res);
 
 })
 router.post('/approveLoan',sessionChecker,(req,res)=>{
@@ -82,6 +99,11 @@ router.post('/rejectLoan',sessionChecker,(req,res)=>{
 })
 router.get('/getLoan',sessionChecker,(req,res)=>{
     console.log('getLoan');
+    let userAuth ={
+        sessionId : req.headers.authtoken,
+        userId : req.headers.userid
+    }
+    UserOperation.FetchLoan(userAuth,res);
 })
 
 module.exports=router;
