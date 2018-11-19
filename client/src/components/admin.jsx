@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class AdminPanel extends React.Component{
+class AdminPanel extends Component{
     render(){
         return(
             <div>Admin pAnel</div>
