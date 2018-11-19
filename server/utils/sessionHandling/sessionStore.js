@@ -7,7 +7,7 @@ var store=sessionstore.createSessionStore({
         port: 27017,               
         dbName: 'loan_application',       
         collectionName: 'sessions',
-        timeout: 10000,
+        timeout: 100000,
         url: config.dbUrl
 });
 
