@@ -106,10 +106,10 @@ router.put('/approveLoan',sessionChecker,(req,res)=>{
     UserOperation.ApproveLoan(loanId,res);
 })
 router.put('/rejectloan',sessionChecker,(req,res)=>{
-    console.log('approveLoan');
+    console.log('rejectLoan');
     loanId =req.body.id;
     console.log('loanID',loanId);
-    UserOperation.ApproveLoan(loanId,res);
+    UserOperation.RejectLoan(loanId,res);
 })
 router.post('/rejectLoan',sessionChecker,(req,res)=>{
     console.log('rejectLoan');
