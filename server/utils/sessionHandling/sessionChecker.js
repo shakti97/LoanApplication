@@ -20,11 +20,15 @@ const checkerFunction=(sId,response,next)=>{
     })
 }
 const sessionChecker =(request,response,next)=>{
+    console.log('sessionChecker ');
+    let sessionId=request.headers.authtoken
+    console.log(request.headers);
+    console.log('ssessionId ',sessionId);
     if(request.method=="POST"){
-        checkerFunction("sessionId Value",response,next);
+        checkerFunction(sessionId,response,next);
     }
     else{
-        checkerFunction('sessionId Value',response,next);
+        checkerFunction(sessionId,response,next);
     }
 }
 module.exports=sessionChecker;
