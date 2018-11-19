@@ -82,6 +82,8 @@ const UserOperations = {
                                 Routes = ['/customer', '/']
                             } else if (userDoc[0].role === 'Lender') {
                                 Routes = ['/lender', '/']
+                            } else if(userDoc[0].role==='Admin'){
+                                Routes=['/admin','/']
                             }
                             response.status(200).send({
                                 isLogin: true,
