@@ -24,6 +24,7 @@ class Login extends Component {
             credentials: 'include'
         }).then((res) => {
             res.json().then((data) => {
+                if(data.isLogin){
                 console.log(data);
                 localStorage.setItem("sessionId", data.sessionId);
                 localStorage.setItem('userId', data.userId);
@@ -36,7 +37,11 @@ class Login extends Component {
                 else if(data.role==='Admin'){
                     this.props.history.push('/admin');
                 }
-            })
+            }
+            else if(data.Invalid){
+                alert('Id or Password is Invalid');
+            }
+        })
         }).catch((res) => {
             console.log('error while fetching ', res);
         })
@@ -77,8 +82,7 @@ class Login extends Component {
 
                     <div className="container" style={{ "backgroundColor": "#f1f1f1" }}>
                         <Link to='/signUp'><span className="btn btn-warning">Sign Up</span></Link>
-                        <a href={api+"/auth/facebook"}><span className='btn btn-primary'>  Login With Facebook</span></a>
-
+                        <a href={api+'/auth/facebook'}><span className='btn btn-primary'>  Login With Facebook</span></a>
                     </div>
                 </form>
 

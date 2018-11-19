@@ -19,7 +19,8 @@ class AdminPanel extends Component {
             headers: {
                 authToken: localStorage.getItem('sessionId'),
                 userId: localStorage.getItem('userId')
-            }
+            },
+            credentials: 'include'
         }).then((res) => {
             res.json().then((data) => {
                 console.log(data);

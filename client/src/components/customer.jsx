@@ -53,7 +53,8 @@ class Customer extends Component {
                 'authToken': localStorage.getItem('sessionId'),
                 'userId': localStorage.getItem('userId')
             },
-            method: "GET"
+            method: "GET",
+            credentials: 'include'
         }).then((res) => {
             res.json().then((data) => {
                 console.log("data ", data);

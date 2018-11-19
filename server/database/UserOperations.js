@@ -95,6 +95,11 @@ const UserOperations = {
                         }
                     })
                 }
+                else{
+                    response.status(200).send({
+                        Invalid : true
+                    })
+                }
             }
         })
     },

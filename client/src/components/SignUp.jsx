@@ -36,7 +36,7 @@ class SignUp extends Component {
                 if(data && data.isSignUp===true){
                     console.log('signUp true');
                     localStorage.setItem('userId',data.userId);
-                    this.props.history.push('/dialog');
+                    this.props.history.push('/dialog/signUp/'+data.userId+"/1");
                 }
             })
         }).catch((err) => {

@@ -20,6 +20,7 @@ class Lender extends Component {
                 'userId': localStorage.getItem('userId')
             },
             method: "PUT",
+            credentials: 'include',
             body: JSON.stringify({ id: event.target.name })
         }).then((res) => {
             res.json().then((data) => {
@@ -45,6 +46,7 @@ class Lender extends Component {
                 'userId': localStorage.getItem('userId')
             },
             method: "PUT",
+            credentials: 'include',
             body: JSON.stringify({ id: event.target.name })
         }).then((res) => {
             res.json().then((data) => {
@@ -68,7 +70,8 @@ class Lender extends Component {
             headers: {
                 authToken: localStorage.getItem('sessionId'),
                 userId: localStorage.getItem('userId')
-            }
+            },
+            credentials: 'include'
         }).then((res) => {
             res.json().then((data) => {
                 console.log(data);

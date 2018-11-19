@@ -17,7 +17,7 @@ class App extends Component {
         </header>
         <Switch>
           <Route path='/' exact component={Login}/>
-          <Route path='/dialog' exact component={dialog}/>
+          <Route path='/dialog/:redFrom/:userId/:sessionId' exact component={dialog}/>
           <Route path='/signUp' exact component={SignUp}/>
           <Route path="/admin" exact component={AdminPanel}/>
           <Route path="/lender" exact component={Lender}/>
