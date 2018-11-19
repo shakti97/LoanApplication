@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from '../globalConst';
+import {withRouter} from 'react-router-dom';
 
 class AdminPanel extends Component{
     constructor(props){
@@ -73,4 +74,4 @@ class AdminPanel extends Component{
         )
     }
 }
-export default AdminPanel;
+export default withRouter(AdminPanel);
