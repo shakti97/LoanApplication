@@ -6,6 +6,11 @@ class Lender extends Component{
         super(props);
         this.state={loans : [], loansApproved : ""}
     }
+    Logout=()=>{
+        console.log('Logout');
+        localStorage.clear();
+        this.props.history.push('/');
+    }
     Reject=(event)=>{
         console.log('want to approve ',event.target.name);
         fetch(api+'/rejectLoan',{
@@ -75,7 +80,7 @@ class Lender extends Component{
         return (
             <div>
                 <div>
-                <div style={{ float: 'right' ,marginRight : "2em"}}> <button className="btn btn-danger">LoginOut</button> </div>
+                <div style={{ float: 'right' ,marginRight : "2em"}}> <button className="btn btn-danger" onClick={this.Logout}>LogOut</button> </div>
 
                 <h4>Lender Home</h4>
                 <br />

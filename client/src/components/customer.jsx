@@ -10,6 +10,11 @@ class Customer extends Component {
             totalMoneyReceived: ''
         }
     }
+    Logout=()=>{
+        console.log('Logout');
+        localStorage.clear();
+        this.props.history.push('/');
+    }
     requestNewLoan(){
         console.log('requestNew Loan');
         let userDetails={
@@ -59,7 +64,7 @@ class Customer extends Component {
         return (
 
             <div>
-                <div style={{ float: 'right' ,marginRight : "2em"}}> <button className="btn btn-danger">LoginOut</button> </div>
+                <div style={{ float: 'right' ,marginRight : "2em"}}> <button className="btn btn-danger" onClick={this.Logout}>LoginOut</button> </div>
 
                 <h4>Customer Home</h4>
                 <br />
