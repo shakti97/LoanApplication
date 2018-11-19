@@ -111,9 +111,7 @@ router.put('/rejectloan',sessionChecker,(req,res)=>{
     console.log('loanID',loanId);
     UserOperation.RejectLoan(loanId,res);
 })
-router.post('/rejectLoan',sessionChecker,(req,res)=>{
-    console.log('rejectLoan');
-})
+
 router.get('/getLoan',sessionChecker,(req,res)=>{
     console.log('getLoan');
     let userAuth ={
