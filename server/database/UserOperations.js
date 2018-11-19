@@ -109,6 +109,37 @@ const UserOperations = {
         })
 
     },
+    RejectLoan(loanId,response){
+        console.log('RejectLoan UserOperation');
+        userSchema.find({
+            "loans.loanId": loanId
+            // "loans": {$elemMatch : {'loanId' : loanId}}
+        },(err,userDoc)=>{
+            if(err){
+                console.log(err);
+            }
+            else if(userDoc){console.log("id ", userDoc)}
+        })
+        userSchema.updateOne({
+            "loans.loanId": loanId
+        }, {
+            $set: {
+                "loans.$.status": "Rejected"
+            }
+        },(err,userDoc)=>{
+            if(err){
+                console.log('error while updating the loan Status ',err);
+                response.status(500).send({
+                    Error :err
+                })
+            }else{
+                console.log('Successfully rejected the loan Request ',userDoc);
+                response.status(200).send({
+                    SuccessfullyRejected:true
+                })
+            }
+        })
+    },
     ApproveLoan(loanId, response) {
         console.log('ApproveLoan UserOperation');
         userSchema.find({
@@ -133,7 +164,7 @@ const UserOperations = {
                     Error :err
                 })
             }else{
-                console.log('Successfully rejected the loan Request ',userDoc);
+                console.log('Successfully approved the loan Request ',userDoc);
                 response.status(200).send({
                     SuccessfullyApproved :true
                 })
