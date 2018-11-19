@@ -109,13 +109,22 @@ const UserOperations = {
         })
 
     },
-    ApproveLoan(loanObject, response) {
+    ApproveLoan(loanId, response) {
         console.log('ApproveLoan UserOperation');
-        userSchema.updateOneOne({
-            "loans.loanId": loanObject.loanId
+        userSchema.find({
+            "loans.loanId": loanId
+            // "loans": {$elemMatch : {'loanId' : loanId}}
+        },(err,userDoc)=>{
+            if(err){
+                console.log(err);
+            }
+            else if(userDoc){console.log("id ", userDoc)}
+        })
+        userSchema.updateOne({
+            "loans.loanId": loanId
         }, {
             $set: {
-                "loan.$.status": "Rejected"
+                "loans.$.status": "Approved"
             }
         },(err,userDoc)=>{
             if(err){
@@ -126,7 +135,28 @@ const UserOperations = {
             }else{
                 console.log('Successfully rejected the loan Request ',userDoc);
                 response.status(200).send({
-                    SuccessfullyRejected :true
+                    SuccessfullyApproved :true
+                })
+            }
+        })
+    },
+    FetchAllLoans(userObject,response){
+        let Loans =[]
+        console.log('FetchAll Loans');
+        userSchema.find({role : 'Customer'},(err,userDoc)=>{
+            if(err){
+                console.log('userDoc ',userDoc);
+                response.status(500).send({
+                    Error : err
+                })
+            }else{
+                console.log('users ',userDoc);
+                for(let i=0;i<userDoc.length;i++){
+                    Loans.push(...userDoc[i].loans);
+                    console.log('loans ',Loans);
+                }
+                response.status(200).send({
+                    loans:Loans
                 })
             }
         })
